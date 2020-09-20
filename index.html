@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html ng-app="ManegementProcess" lang="pt-br">
+
+<head>
+   <title>Simulador</title>
+
+   <script src="js/angular.js"></script>
+   <script src="/js/angular-route.js"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <script>
+      addEventListener("load", function () { setTimeout(hideURLbar, 0); }, false); function hideURLbar() { window.scrollTo(0, 1); }
+   </script>
+   <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
+   <script src="indexCOntroller.js"></script>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body ng-controller="ManegementProcessCTRL">
+   <section>
+      
+      <div class="jumbotron" style="background-image: url(img/banner.jpg); text-align: end; color: cornsilk;">
+         <h1 class="display-4">conte com a nossa ajuda</h1>
+         <p class="lead">Solicite carência de 120 dias para o financiamento que você precisa.</p>
+         <hr class="my-4">
+         <p>Faça uma simulação agora mesmo!</p>
+         <p class="lead">
+            <a class="btn btn-warning" ng-click="simular()" ng-if="buttonSimularAgora" role="button">Simular Agora!</a>
+         </p>
+      </div>
+
+
+      <div class="container" ng-if="regras">
+         <p>
+            <br>
+            <h1>Regras de Negócio:</h1>
+            <br>
+            <p class="font-weight-bold">Taxa de Juros</p>
+            Sendo valor contrato menor ou igual a R$1.000,00 atribuir 1,8% como percentual de taxa de juros
+            se não: atribuir 3%.
+            Sendo a quantidade de parcelas maior que 12 parcelas, adicionar 0,5% a taxa de juros.
+            <br><br>
+            <p class="font-weight-bold"> Valor da Parcela</p>
+            Calcular o valor da parcela conforme: Taxa de juros (R3)
+            valorContato*(1+(quantideParcelas*taxajuros))/quantidadeParcelas
+            <br><br>
+            <p class="font-weight-bold">     Quantidade Máxima de Parcelas</p>
+            Quantidade máxima de parcelas: 24
+            <br><br>
+            <p class="font-weight-bold">Retorno da API:</p>
+           - Data da Simulacao;<br>
+           - Data Validade Simulação;<br>
+           - Valor Contrato;<br>
+           - Quantida de Parcelas;<br>
+           - Valor Parcela;<br>
+           - Taxa Juros Emprestimo.
+           <br><br>
+         </p>
+      </div>
+
+      <div class="container" ng-if="formPayload">
+         <form ng-model="payload">
+            <br><br>
+               <div class="row">
+                  <h3 class="text-uppercase">Estamos quase lá, preenchas os campos abaixo!</h3>
+                  <input type="text" ng-model="payload.nome" class="form-control" placeholder="Nome" required>
+                  <input type="text" ng-model="payload.cpf" class="form-control" placeholder="CPF" required>
+                  <input type="text" ng-model="payload.email" class="form-control" placeholder="E-mail" required>
+                  <input type="number" ng-model="payload.valorContrato" class="form-control" placeholder="Valor desejado" required>
+                  <input type="number" ng-model="payload.numeroParcelas" class="form-control" placeholder="Nº Parcelas" required>
+                  <br><br>
+                  <a class="btn btn-success" ng-click="gerarSilumacao(payload)" style="color: cornsilk;" role="button">SIMULAR!</a>
+               </div>   
+
+         </form>
+      </div>
+
+      <div class="container" ng-if="tabSimulacao">
+         <table class="table table-sm" style="text-align: center;">
+            <br><br>
+            <h3  style="text-align: center;">Simulação realizada! - <button class="btn btn-success" >Contratar!</button></h3>
+            <br><br>
+            <thead>
+              <tr>
+                <th scope="col">NOME</th>
+                <th scope="col">CPF</th>
+                <th scope="col">EMAIL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{simulacao.nome}}</td>
+                <td>{{simulacao.cpf}}</td>
+                <td>{{simulacao.email}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">SIMULADO EM</th>
+                <th scope="col">VALIDADE ATÉ</th>
+                <th scope="col">VALOR</th>
+                <th scope="col">Nº PARCELAS</th>
+                <th scope="col">VALOR PARCELA</th>
+                <th scope="col">JUROS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{simulacao.simuladorEmprestimo.dataSimulacao}}</td>
+                <td>{{simulacao.simuladorEmprestimo.dataValidadeSimulacao}}</td>
+                <td>{{simulacao.simuladorEmprestimo.valorContrato}}</td>
+                <td>{{simulacao.simuladorEmprestimo.quantidadeParcelas}}</td>
+                <td>{{simulacao.simuladorEmprestimo.valorParcela}}</td>
+                <td>{{simulacao.simuladorEmprestimo.taxaJurosEmprestimo * 100}} %</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <!--  -->
+      <div class="container" ng-if="mensagemErro" >
+         <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Ocorreu o seguinte ERRO!</h4>
+            <br><br>
+            <p>{{msg}}</p>
+            <hr>
+            <p class="mb-0">Mensagem do servidor.</p>
+          </div>
+      </div>
+
+
+      <div style="text-align: end">
+         <button class="btn btn-danger" ng-click="sair()"> Sair </button>
+      </div>
+   </section>
+   <footer class="bottem-wthree-footer">
+      <p>
+         <br/><br/>
+         © 09/2020 | By Cleiton  
+      </p>
+   </footer>
+   <script 
+         src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+         crossorigin="anonymous">
+   </script>
+   <script 
+         src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+         crossorigin="anonymous">
+   </script>
+   <script 
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous">
+   </script>
+</body>
+</html>
