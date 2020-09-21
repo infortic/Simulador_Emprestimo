@@ -57,6 +57,5 @@ para baixar as dependências do Node.js
 3 - Ainda dentro da pasta da aplicação execute: 
 `npx serve`
 se tudo ocorreu bem a aplicação estará disponível’ no seguinte link: `localhost:5000` 
-ao acessar deverá chegar a tela de login
-![alt text](imgs/login.png)
+ao acessar deverá chegar a tela inicial do sistema!
 
