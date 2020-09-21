@@ -44,6 +44,7 @@ Estar com a api "Simulador_Emprestimo_banckAnd" rodando. Você pode baixa-la nes
 
 ### Pré-requisitos
 * Node.JS
+* Internet (algumas dependências possuem diretórios remotos)
 
 ### Passo a passo
 
