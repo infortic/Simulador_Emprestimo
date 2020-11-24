@@ -1,6 +1,6 @@
 # Simulador de Financiamento
 
-#### Esta aplicação foi desenvolvida especificamente para fins didáticos e mesmo contendo imagens ilustrativas não possui vínculo com nenhuma instituição financeira ou de credito. 
+#### Esta aplicação foi desenvolvida especificamente para fins didáticos e mesmo contendo imagens ilustrativas não possui vínculo com nenhuma instituição financeira. 
 
 *Obs.: em caso de erro de cors recomendo criar uma instancia do google chorme sem o cors, basta criar um novo atalho para o chrome adicionando esta tag "--disable-web-security --disable-gpu --user-data-dir=c:/chromeTemp" no final do destino. 
 
