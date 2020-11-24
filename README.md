@@ -7,6 +7,47 @@
 
 Aplicativo SPA híbrido (compatível com celular, tablet, computador, etc...) para simulação de empréstimo.
 
+Solução para contratação de empréstimos. Permitindo a simulação antes de efetivar a contratação.
+
+### Informações Adicionais
+- As simulações de empréstimo possuem um período de validade de 30 dias. 
+- Após este período não será possível efetivar a contratação. 
+- Somente realizar simulações para cpf e email válido!
+
+### Dados de entrada
+- NOME
+- CPF
+- EMAIL
+- VALOR_CONTRATO
+- QUANTIDADE_PARCELAS.
+
+
+# Regras de Negócio:
+
+### Taxa de Juros  
+- Sendo valor contrato menor ou igual a R$1.000,00 atribuir 1,8% como percentual de taxa de juros
+- se não: atribuir 3%.
+- Sendo a quantidade de parcelas maior que 12 parcelas, adicionar 0,5% a taxa de juros.
+
+### Valor da Parcela
+- Calcular o valor da parcela conforme: Taxa de juros (R3)
+- valorContato*(1+(quantideParcelas*taxajuros))/quantidadeParcelas
+
+### Quantidade Máxima de Parcelas
+
+- Quantidade máxima de parcelas: 24
+
+### Retorno da API:
+
+- Informações do cliente;
+- Data da Simulacao;
+- Data Validade Simulação;
+- Valor Contrato;
+- Quantida de Parcelas;
+- Valor Parcela;
+- Taxa Juros Emprestimo.
+
+
 ### Pré-Requisito: 
 Estar com a api "Simulador_Emprestimo_banckAnd" rodando. Você pode baixa-la neste link: https://github.com/infortic/Simulador_Emprestimo_banckAnd, leia o readmin para saber coomo configurar e subir a API. :)
 
